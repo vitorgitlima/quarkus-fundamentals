@@ -1,11 +1,14 @@
 package org.glima.starting;
 
 
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import org.glima.starting.repository.BookRepository;
+import org.jboss.logging.Logger;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,15 +16,19 @@ import java.util.Optional;
 @Path("/api/books")
 public class BookResource {
 
+    @Inject
+    BookRepository repository;
+
+    @Inject
+    Logger logger;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Book> getAllBooks() {
-        return List.of(
-                new Book(1, "Understanting Quarkus", "Antonio Goncalves", 2020, "IT"),
-                new Book(2, "Practsing Quarkus", "Antonio Goncalves", 2020, "IT"),
-                new Book(3, "Effective Java", "Josh Blocj", 2001, "IT"),
-                new Book(3, "Thinking in Java", "Bruce Eckel", 1998, "IT")
-        );
+
+        logger.info("Returns all books");
+
+        return repository.getAllBooks();
     }
 
     @GET
@@ -29,14 +36,17 @@ public class BookResource {
     @Produces(MediaType.TEXT_PLAIN)
     public int countAllBooks() {
 
-        return getAllBooks().size();
+        logger.info("Returns the number of books");
+
+        return repository.countAllBooks();
     }
 
     @GET
     @Path("{id}")
     public Optional<Book> getBook(@PathParam("id") int id) {
 
-        return getAllBooks().stream()
-                .filter(book -> book.id == id).findFirst();
+        logger.info("Returns a single book with id " + id);
+
+        return repository.getBook(id);
     }
 }
