@@ -44,7 +44,10 @@ class BookResourceTest {
                 .get("/api/books/{id}")
                 .then()
                 .statusCode(200)
-                .body("title", is("Understanting Quarkus"));
+                .body("title", is("Understanting Quarkus"))
+                .body("author", is("Antonio"))
+                .body("genre", is("IT"))
+                .body("yearOfPublication", is(2020));
     }
 
 

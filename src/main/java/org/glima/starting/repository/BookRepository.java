@@ -13,8 +13,8 @@ public class BookRepository {
 
     public List<Book> getAllBooks() {
         return List.of(
-                new Book(1, "Understanting Quarkus", "Antonio Goncalves", 2020, "IT"),
-                new Book(2, "Practsing Quarkus", "Antonio Goncalves", 2020, "IT"),
+                new Book(1, "Understanting Quarkus", "Antonio", 2020, "IT"),
+                new Book(2, "Practsing Quarkus", "Antonio", 2020, "IT"),
                 new Book(3, "Effective Java", "Josh Blocj", 2001, "IT"),
                 new Book(3, "Thinking in Java", "Bruce Eckel", 1998, "IT")
         );
