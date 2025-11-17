@@ -1,92 +1,125 @@
 # rest-book
 
-## Curso AGoncal: Começando com Quarkus
+## Fundamentos do Quarkus
 
-Código do curso "Starting with Quarkus" (Começando com Quarkus).
+Este projeto foi desenvolvido durante meu aprendizado dos fundamentos do Quarkus, baseado no curso "Starting with Quarkus" do AGoncal. O objetivo é consolidar o conhecimento sobre este framework moderno e ter um overview prático de suas principais funcionalidades.
 
-Este curso é para desenvolvedores Java que desejam descobrir o Quarkus. É uma mistura de slides e código para que você possa "Entender e Praticar" ao mesmo tempo. Dessa forma, você aprende a teoria e depois a coloca em prática desenvolvendo uma aplicação passo a passo.
+### O que é Quarkus?
 
-Neste curso, você passará por um ciclo completo de desenvolvimento. Após introduzir o Quarkus, você garantirá que seu ambiente de desenvolvimento esteja configurado e irá desde o bootstrap de uma aplicação Quarkus até executá-la como um container Docker. As diferentes etapas pelas quais você passará são:
+Quarkus é um framework Java Supersônico e Subatômico, projetado para GraalVM e OpenJDK HotSpot. Ele foi criado pensando em containers, Kubernetes e arquiteturas nativas da nuvem, oferecendo tempos de inicialização extremamente rápidos e baixo consumo de memória.
 
-- Entender o Quarkus
-- Verificar seu ambiente de desenvolvimento
-- Colocar a mão na massa com Quarkus
-- Expor um endpoint REST usando JAX-RS
-- Injetar beans com CDI
-- Testar o endpoint REST com JUnit e RESTAssured
-- Configurar a aplicação com MicroProfile Configuration
-- Configurar o Quarkus
-- Adicionar profiles à configuração
-- Construir JARs executáveis
-- Construir um executável nativo e um executável Linux com GraalVM
-- Verificar o desempenho de uma aplicação Quarkus
-- Containerizar a aplicação com Docker e executá-la
+### O que foi aprendido
 
-Ao final do curso, você terá uma boa compreensão do Quarkus. Você será capaz de fazer bootstrap, desenvolver, empacotar e executar uma aplicação REST, mas o mais importante, levar o Quarkus para seu próximo projeto.
+Durante o desenvolvimento deste projeto, explorei um ciclo completo de desenvolvimento com Quarkus, desde o bootstrap da aplicação até sua execução em containers. Os principais conceitos e práticas abordados foram:
+
+#### **Fundamentos**
+- Configuração do ambiente de desenvolvimento
+- Bootstrap de uma aplicação Quarkus
+- Compreensão da arquitetura e filosofia do framework
+
+#### **Desenvolvimento**
+- Criação de endpoints REST com JAX-RS
+- Injeção de dependências com CDI (Contexts and Dependency Injection)
+- Configuração de aplicação usando MicroProfile Configuration
+- Gestão de profiles de configuração (dev, test, prod)
+
+#### **Testes**
+- Testes de endpoints REST com JUnit 5
+- Integração com RESTAssured para testes de API
+
+#### **Build e Deploy**
+- Geração de JARs executáveis
+- Construção de executáveis nativos com GraalVM
+- Análise de performance e otimizações
+- Containerização com Docker
+
+### Tecnologias Utilizadas
+
+- **Quarkus 3.29.2** - Framework principal
+- **Java 21** - Linguagem de programação
+- **Maven** - Gerenciador de dependências e build
+- **JAX-RS** - API REST
+- **CDI** - Injeção de dependências
+- **JSON-B** - Serialização JSON
+- **JUnit 5** - Testes unitários
+- **RESTAssured** - Testes de API
 
 ---
 
-Este projeto usa Quarkus, o Framework Java Supersônico e Subatômico.
+## Como Executar
 
-Se você quiser aprender mais sobre Quarkus, visite o site: <https://quarkus.io/>.
+### Modo de Desenvolvimento (Dev Mode)
 
-## Executando a aplicação em modo de desenvolvimento
-
-Você pode executar sua aplicação em modo de desenvolvimento que habilita live coding usando:
+O modo de desenvolvimento habilita live coding (hot reload) e a Dev UI:
 
 ```shell script
 ./mvnw quarkus:dev
 ```
 
-> **_NOTA:_**  O Quarkus agora vem com uma Dev UI, que está disponível apenas em modo de desenvolvimento em <http://localhost:8080/q/dev/>.
+> **Dev UI disponível em:** <http://localhost:8080/q/dev/>
 
-## Empacotando e executando a aplicação
+### Build e Empacotamento
 
-A aplicação pode ser empacotada usando:
-
+**Build padrão (JAR com dependências separadas):**
 ```shell script
-./mvnw package
+./mvnw clean package
+```
+Gera: `target/quarkus-app/quarkus-run.jar` (dependências em `target/quarkus-app/lib/`)
+
+**Executar:**
+```shell script
+java -jar target/quarkus-app/quarkus-run.jar
 ```
 
-Isso produz o arquivo `quarkus-run.jar` no diretório `target/quarkus-app/`.
-Esteja ciente de que não é um _über-jar_, pois as dependências são copiadas para o diretório `target/quarkus-app/lib/`.
-
-A aplicação agora pode ser executada usando `java -jar target/quarkus-app/quarkus-run.jar`.
-
-Se você quiser construir um _über-jar_, execute o seguinte comando:
-
+**Build Über-JAR (tudo em um único arquivo):**
 ```shell script
 ./mvnw package -Dquarkus.package.jar.type=uber-jar
 ```
 
-A aplicação, empacotada como um _über-jar_, agora pode ser executada usando `java -jar target/*-runner.jar`.
+**Executar:**
+```shell script
+java -jar target/*-runner.jar
+```
 
-## Criando um executável nativo
+### Executável Nativo (GraalVM)
 
-Você pode criar um executável nativo usando:
+Um dos grandes diferenciais do Quarkus é a capacidade de gerar executáveis nativos com GraalVM, resultando em inicialização ultra-rápida e consumo mínimo de memória.
 
+**Com GraalVM instalado localmente:**
 ```shell script
 ./mvnw package -Dnative
 ```
 
-Ou, se você não tiver o GraalVM instalado, pode executar a construção do executável nativo em um container usando:
-
+**Sem GraalVM (build em container):**
 ```shell script
 ./mvnw package -Dnative -Dquarkus.native.container-build=true
 ```
 
-Você pode então executar seu executável nativo com: `./target/rest-book-1.0.0-SNAPSHOT-runner`
+**Executar o binário nativo:**
+```shell script
+./target/rest-book-1.0.0-SNAPSHOT-runner
+```
 
-Se você quiser aprender mais sobre construção de executáveis nativos, consulte <https://quarkus.io/guides/maven-tooling>.
+> **Nota:** Executáveis nativos inicializam em milissegundos e consomem uma fração da memória comparado à JVM tradicional.
 
-## Guias Relacionados
+---
 
-- REST JSON-B ([guia](https://quarkus.io/guides/rest#json-serialisation)): Suporte de serialização JSON-B para Quarkus REST. Esta extensão não é compatível com a extensão quarkus-resteasy, ou qualquer uma das extensões que dependem dela.
+## Recursos e Referências
 
-## Código Fornecido
+### Extensões Utilizadas
+- **Quarkus REST (JAX-RS)** - Endpoints REST reativos
+- **Quarkus REST JSON-B** - Serialização JSON
+- **Quarkus CDI (Arc)** - Injeção de dependências
+- **Quarkus JUnit 5** - Framework de testes
+- **REST Assured** - Testes de API REST
 
-### REST
+### Links Úteis
+- [Documentação Oficial do Quarkus](https://quarkus.io/)
+- [Guia: REST com Quarkus](https://quarkus.io/guides/rest)
+- [Guia: Serialização JSON](https://quarkus.io/guides/rest#json-serialisation)
+- [Guia: Testes](https://quarkus.io/guides/getting-started-testing)
+- [Guia: Executáveis Nativos](https://quarkus.io/guides/maven-tooling)
 
-Inicie facilmente seus Web Services REST
+---
 
-[Seção do guia relacionado...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+**Curso base:** [Starting with Quarkus - Antonio Goncalves](https://github.com/agoncal/agoncal-course-quarkus-starting)
