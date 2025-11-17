@@ -3,6 +3,7 @@ package org.glima.starting.repository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.PathParam;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.glima.starting.Book;
 
 import java.util.List;
@@ -11,12 +12,15 @@ import java.util.Optional;
 @ApplicationScoped
 public class BookRepository {
 
+    @ConfigProperty(name = "books.genre", defaultValue = "Sci-Fi")
+    String genre;
+
     public List<Book> getAllBooks() {
         return List.of(
-                new Book(1, "Understanting Quarkus", "Antonio", 2020, "IT"),
-                new Book(2, "Practsing Quarkus", "Antonio", 2020, "IT"),
-                new Book(3, "Effective Java", "Josh Blocj", 2001, "IT"),
-                new Book(3, "Thinking in Java", "Bruce Eckel", 1998, "IT")
+                new Book(1, "Understanting Quarkus", "Antonio", 2020, genre),
+                new Book(2, "Practsing Quarkus", "Antonio", 2020, genre),
+                new Book(3, "Effective Java", "Josh Blocj", 2001, genre),
+                new Book(3, "Thinking in Java", "Bruce Eckel", 1998, genre)
         );
     }
 
